@@ -4,6 +4,7 @@ This is a repo to test Gitlab and runners.
 
 ## Prereqs
 - Docker Desktop with Kubernetes enabled
+- Helm is installed
 - DNS name pointing to host machine running Docker
 
 ## Deploy
