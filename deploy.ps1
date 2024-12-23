@@ -186,3 +186,6 @@ foreach ($repo in $repos) {
         Pop-Location
     }
 }
+
+
+Write-Host "Deployment finsihed - Login to http://$env:GITLAB_HOSTNAME"

@@ -10,3 +10,6 @@ This is a repo to test Gitlab and runners.
 - Ensure the Kubernetes context is set to the docker-desktop cluster.
 - Set `$env:GITLAB_HOSTNAME` environment variable (or you will be prompted during the execution of `deploy.ps1`) - e.g. `$env:GITLAB_HOSTNAME = "gitlab.example.com"`
 - Run `deploy.ps1`
+- Login with:
+  - Username: `root`
+  - Password: `SuperSecretLocalLab`
