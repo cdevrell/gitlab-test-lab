@@ -1,5 +1,5 @@
 ## Stop Gitlab
-docker-compose.exe -f gitlab-server/docker-compose.yaml down
+docker-compose -f gitlab-server/docker-compose.yaml down
 
 ## Delete Gitlab data
 Write-Host "Removing Gitlab data"
