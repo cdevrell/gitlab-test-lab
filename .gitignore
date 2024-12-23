@@ -1,5 +1,3 @@
 .vscode
 .env
-
 repos/**/.git
-repos/environment/infrastructure/deploy/main.tf
