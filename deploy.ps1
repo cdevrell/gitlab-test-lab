@@ -2,13 +2,9 @@ if (!$env:GITLAB_HOSTNAME) {
     $env:GITLAB_HOSTNAME = Read-Host "Enter Gitlab hostname"
 }
 
-## Set files with gitlab hostname
-$obfuscatedFiles = Get-ChildItem -Path *.tmp -Recurse -Force
-foreach ($f in $obfuscatedFiles) {
-    $newName = $f.FullName.Replace(".tmp", "")
-    (Get-Content $f.FullName).Replace("GITLAB_HOSTNAME", $env:GITLAB_HOSTNAME) | Set-Content $newName
+if (!(Test-Path gitlab-server/.env)) {
+    Set-Content -Value "GITLAB_HOSTNAME=$env:GITLAB_HOSTNAME" -Path gitlab-server/.env
 }
-
 
 Write-Host "Starting Gitlab...."
 docker-compose -f gitlab-server/docker-compose.yaml up -d

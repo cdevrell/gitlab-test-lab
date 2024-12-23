@@ -1,7 +1,5 @@
 .vscode
-
-gitlab-server/volumes
-gitlab-server/docker-compose.yaml
+.env
 
 repos/**/.git
 repos/environment/infrastructure/deploy/main.tf

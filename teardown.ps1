@@ -1,15 +1,5 @@
 ## Stop Gitlab
-docker-compose -f gitlab-server/docker-compose.yaml down
-
-## Delete files exposing hostname
-$obfuscatedFiles = Get-ChildItem -Path *.tmp -Recurse -Force
-foreach ($f in $obfuscatedFiles) {
-    $newName = $f.FullName.Replace(".tmp","")
-    if (Test-Path $newName) {
-        Write-Host "Deleting $newName"
-        Remove-Item $newName -force
-    }
-}
+docker-compose -f gitlab-server/docker-compose.yaml down -v
 
 ## Remove GitLab Runner
 helm uninstall gitlab-runner

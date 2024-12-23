@@ -4,11 +4,11 @@ services:
     image: gitlab/gitlab-ce:17.7.0-ce.0
     container_name: gitlab
     restart: always
-    hostname: 'GITLAB_HOSTNAME'
+    hostname: '${GITLAB_HOSTNAME}'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        external_url 'http://GITLAB_HOSTNAME'
+        external_url 'http://${GITLAB_HOSTNAME}'
         gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0']
         gitlab_rails['initial_root_password'] = "SuperSecretLocalLab"
     ports:
