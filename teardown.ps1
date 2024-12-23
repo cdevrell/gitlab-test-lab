@@ -1,12 +1,6 @@
 ## Stop Gitlab
 docker-compose -f gitlab-server/docker-compose.yaml down
 
-## Delete Gitlab data
-Write-Host "Removing Gitlab data"
-if (Test-Path gitlab-server/volumes) {
-    Remove-Item gitlab-server/volumes -Recurse -Force
-}
-
 ## Delete files exposing hostname
 $obfuscatedFiles = Get-ChildItem -Path *.tmp -Recurse -Force
 foreach ($f in $obfuscatedFiles) {

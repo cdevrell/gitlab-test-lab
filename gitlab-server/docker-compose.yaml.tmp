@@ -15,7 +15,15 @@ services:
       - '80:80'
       - '22:22'
     volumes:
-      - './volumes/config:/etc/gitlab'
-      - './volumes/logs:/var/log/gitlab'
-      - './volumes/data:/var/opt/gitlab'
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
     shm_size: '256m'
+
+volumes:
+  gitlab-config:
+    driver: local
+  gitlab-logs:
+    driver: local
+  gitlab-data:
+    driver: local
