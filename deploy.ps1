@@ -5,13 +5,13 @@ if (!$env:GITLAB_HOSTNAME) {
 ## Set files with gitlab hostname
 $obfuscatedFiles = Get-ChildItem -Path *.tmp -Recurse -Force
 foreach ($f in $obfuscatedFiles) {
-    $newName = $f.FullName.Replace(".tmp","")
+    $newName = $f.FullName.Replace(".tmp", "")
     (Get-Content $f.FullName).Replace("GITLAB_HOSTNAME", $env:GITLAB_HOSTNAME) | Set-Content $newName
 }
 
 
 Write-Host "Starting Gitlab...."
-docker-compose.exe -f gitlab-server/docker-compose.yaml up -d
+docker-compose -f gitlab-server/docker-compose.yaml up -d
 
 Write-Host "Waiting for Gitlab to become available..."
 $response = $null
@@ -75,17 +75,19 @@ if (!$runnerExists) {
         -Form $runnerData
   
     $registrationToken = ($newRunnerResponse.Content | ConvertFrom-Json).token
-}
+    
+    ## Deploy Runner Helm Chart to Kubernetes
+    Write-Host "Deploying Gitlab Runner to Kubernetes..."
+    helm repo add gitlab https://charts.gitlab.io
+    helm upgrade gitlab-runner `
+        --install `
+        --set gitlabUrl="http://$env:GITLAB_HOSTNAME" `
+        --set runnerRegistrationToken=$registrationToken `
+        --set rbac.create=true `
+        --set serviceAccount.create=true `
+        gitlab/gitlab-runner
 
-## Deploy Runner Helm Chart to Kubernetes
-Write-Host "Deploying Gitlab Runner to Kubernetes..."
-helm upgrade gitlab-runner `
-    --install `
-    --set gitlabUrl="http://$env:GITLAB_HOSTNAME" `
-    --set runnerRegistrationToken=$registrationToken `
-    --set rbac.create=true `
-    --set serviceAccount.create=true `
-    gitlab/gitlab-runner
+}
 
 $existingGroups = (Invoke-WebRequest -Uri "http://$env:GITLAB_HOSTNAME/api/v4/groups" -Headers $header).Content | ConvertFrom-Json
 
