@@ -17,6 +17,7 @@ read-bom:
 
 deploy-infra-vault:
   stage: deploy-infra
+  environment: prod
   image: hashicorp/terraform:1.10
   before_script:
     - echo "terraform init vault"
@@ -26,11 +27,17 @@ deploy-infra-vault:
 
 deploy-infra-aws:
   stage: deploy-infra
+  environment: prod
   image: hashicorp/terraform:1.10
+  variables:
+    ROOT_PAT: glpat-RootUserToken1234!!!
   needs:
     - deploy-infra-vault
   before_script:
+    - git config --global url."http://root:${ROOT_PAT}@gitlab.test.lab".insteadOf "http://gitlab.test.lab"
+    - git clone http://root:${ROOT_PAT}@gitlab.test.lab/dev/environment/infrastructure.git
+    - cd infrastructure/deploy
     - terraform init
   script:
-    - terraform plan
-    - terraform apply
+    - terraform plan -out ${CI_PIPELINE_ID}-${CI_JOB_NAME_SLUG}.tfplan
+    - terraform apply -auto-approve ${CI_PIPELINE_ID}-${CI_JOB_NAME_SLUG}.tfplan
