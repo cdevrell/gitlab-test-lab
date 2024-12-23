@@ -14,3 +14,6 @@ This is a repo to test Gitlab and runners.
 - Login with:
   - Username: `root`
   - Password: `SuperSecretLocalLab`
+
+## Teardown
+- Run `teardown.ps1`
