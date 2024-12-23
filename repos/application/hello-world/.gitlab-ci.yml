@@ -1,0 +1,13 @@
+stages:
+  - qa
+  - build
+
+qa:
+  stage: qa
+  script:
+    - echo "Hello, $GITLAB_USER_LOGIN! This will do a SonarQube scan."
+
+build:
+  stage: build
+  script:
+    - echo "This will produce the build artifact."

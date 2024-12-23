@@ -1,0 +1,36 @@
+stages:
+  - prep
+  - deploy-infra
+  - deploy-apps
+
+allocate-subnet:
+  stage: prep
+  script:
+    - echo "using subnet 123.123.123.0/24"
+
+read-bom:
+  stage: prep
+  needs:
+    - allocate-subnet
+  script:
+    - echo "read BoM"
+
+deploy-infra-vault:
+  stage: deploy-infra
+  image: hashicorp/terraform:1.10
+  before_script:
+    - echo "terraform init vault"
+  script:
+    - echo "terraform plan vault"
+    - echo "terraform apply vault"
+
+deploy-infra-aws:
+  stage: deploy-infra
+  image: hashicorp/terraform:1.10
+  needs:
+    - deploy-infra-vault
+  before_script:
+    - terraform init
+  script:
+    - terraform plan
+    - terraform apply

@@ -1,0 +1,4 @@
+server/volumes
+.vscode
+repos/**/.git
+docker-compose.yaml

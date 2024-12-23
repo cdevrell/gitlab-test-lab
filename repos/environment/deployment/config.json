@@ -1,0 +1,10 @@
+{
+    "infrastructure": {
+        "version": "main",
+        "eks": {},
+        "rds": [],
+        "elastic": [],
+        "mq": []
+    },
+    "applications": []
+}
